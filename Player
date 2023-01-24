@@ -80,16 +80,15 @@ public class NewBehaviourScript : MonoBehaviour
             anim.SetBool("jump", false);
 
           } 
- 
-    }
-    void OnCollisionEnter2D(Collision2D colisionn)
-    {
+        //   Ajustado a ordem em que foi chamada a codinção para quando for encostar nos espinhos.
+        // A condição deverá estar sempre dentro da função OnCollisionEnter2D.
+        // Alterado por Joao
         if(colisionn.gameObject.tag == "Spike");
           {
             Debug.Log("Tocou o espinho!");
           } 
+ 
     }
-
     void OnCollisionExit2D(Collision2D colision)
     {
         if(colision.gameObject.layer == 8);

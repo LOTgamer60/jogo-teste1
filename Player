@@ -2,8 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class NewBehaviourScript : MonoBehaviour
-{
+public class NewBehaviourScript : MonoBehaviour{
 
     public float Speed;
     public float JumpForce;
@@ -13,57 +12,46 @@ public class NewBehaviourScript : MonoBehaviour
     private Animator anim;
 
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start(){
         rig = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update(){
         Move();
         Jump();
     }
 
-    void Move()
-    {
+    void Move() {
         Vector3 movement = new Vector3(Input.GetAxis("Horizontal"), 0f, 0f);
         transform.position += movement * Time.deltaTime * Speed;
 
-        if(Input.GetAxis("Horizontal") > 0f)
-        {
+        if(Input.GetAxis("Horizontal") > 0f){
             anim.SetBool("walk", true);
             transform.eulerAngles = new Vector3(0f,0f,0f);
         }
 
-        if(Input.GetAxis("Horizontal") < 0f)
-        {
+        if(Input.GetAxis("Horizontal") < 0f){
             anim.SetBool("walk", true);
             transform.eulerAngles = new Vector3(0f,180f,0f);
         }
 
-        if(Input.GetAxis("Horizontal") == 0f)
-        {
+        if(Input.GetAxis("Horizontal") == 0f){
             anim.SetBool("walk", false);
         }
         
     }
 
-    void Jump()
-    {
-        if(Input.GetButtonDown("Jump"))
-        {
-            if(!isJumping)
-            {
+    void Jump(){
+        if(Input.GetButtonDown("Jump")) {
+            if(!isJumping){
                 rig.AddForce(new Vector2(0f, JumpForce), ForceMode2D.Impulse);
                 doubleJump = true;
                 anim.SetBool("jump", true);
             }
-            else
-            {
-               if(doubleJump)
-               {
+            else {
+               if(doubleJump) {
                  rig.AddForce(new Vector2(0f, JumpForce), ForceMode2D.Impulse);
                 doubleJump = false;
                }
@@ -72,30 +60,27 @@ public class NewBehaviourScript : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter2D(Collision2D colision)
-    {
-          if(colision.gameObject.layer == 8);
-          {
+    void OnCollisionEnter2D(Collision2D colision) {
+          if(colision.gameObject.layer == 8){
             isJumping = false;
             anim.SetBool("jump", false);
 
           } 
- 
-    }
-    void OnCollisionEnter2D(Collision2D colisionn)
-    {
-        if(colisionn.gameObject.tag == "Spike");
-          {
+        //   Ajustado a ordem em que foi chamada a codinção para quando for encostar nos espinhos.
+        // A condição deverá estar sempre dentro da função OnCollisionEnter2D.
+        // Alterado por Joao
+        if(colision.gameObject.tag == "Spike"){
             Debug.Log("Tocou o espinho!");
           } 
+ 
     }
-
-    void OnCollisionExit2D(Collision2D colision)
-    {
-        if(colision.gameObject.layer == 8);
-          {
+    void OnCollisionExit2D(Collision2D colision) {
+        if(colision.gameObject.layer == 8){
             isJumping = true;
-          } 
+        } 
     }
 }
+
+
+
 
